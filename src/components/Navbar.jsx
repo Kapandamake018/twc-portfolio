@@ -55,7 +55,7 @@ className= {cn(
              ))}
         </div>
 
-{/* mobile nav */}
+        {/* mobile nav */}
         <button onClick={() => setIsMenuOpen((prev) => !prev)} className="md:hidden p-2 rounded-md text-foreground/80 z-50"
             aria-label = {isMenuOpen ? "Close menu" : "Open menu"}>
            
