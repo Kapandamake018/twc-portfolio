@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils"
 import { useToast } from "@/hooks/use-toast"
 import emailjs from "@emailjs/browser";
 import { useForm } from "react-hook-form";
-import React from "react";
+import React, { useRef } from "react";
 
 
 
@@ -12,21 +12,17 @@ import React from "react";
 export const ContactSection = () => {
     const { register, handleSubmit, reset, formState: { errors, isSubmitting } } = useForm();
     const { toast } = useToast();
+    const form = useRef();
 
-    const onSubmit = async (data) => {
+    const onSubmit = async (e) => {
+        e.preventDefault();
+        
         try {
-            // Initialize EmailJS
-            emailjs.init("bR3iIwVBLd2Ty7LqN");
-
-            const result = await emailjs.send(
-                "service_3n8ufhq",
-                "template_62l05iu",
-                {
-                    from_name: data.from_name,
-                    reply_to: data.reply_to,
-                    message: data.message,
-                    to_name: "Thomas"
-                }
+            const result = await emailjs.sendForm(
+                'service_3n8ufhq',
+                'template_62l05iu',
+                form.current,
+                'bR3iIwVBLd2Ty7LqN'
             );
 
             if (result.status === 200) {
@@ -148,51 +144,55 @@ export const ContactSection = () => {
 
             <div className="bg-card p-8 rounded-lg shadow-xs">
                 <h3 className="text-2xl font-semibold mb-6"> Send A Message</h3>
-                <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
+                <form ref={form} onSubmit={onSubmit} className="space-y-6">
                     <div>
-                        <label htmlFor="name" className="block text-sm mb-2 font-medium"> Your Name</label>
-                        <input type="text"
-                            id="name"
-                            {...register("from_name", { required: "Name is required" })}
+                        <label htmlFor="from_name" className="block text-sm mb-2 font-medium">
+                            Your Name
+                        </label>
+                        <input
+                            type="text"
+                            name="from_name"
+                            id="from_name"
+                            required
                             className="w-full px-4 py-3 rounded-md border border-input bg-background focus:outline-hidden focus:ring-2 focus:ring-primary"
-                            placeholder="Thomas Kapanda.." />
-
-                            {errors.from_name && <span className="text-red-500 text-sm">{errors.from_name.message}</span>}
-
+                            placeholder="Your name..."
+                        />
                     </div>
-                                        <div>
-                        <label htmlFor="email" className="block text-sm mb-2 font-medium"> Your Email</label>
-                        <input type="email"
-                            id="email"
-                            {...register("reply_to", {
-                                required: "Email is required",
-                                pattern: {
-                                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                                    message: "Invalid email address"
-                            }
-                        })}
+
+                    <div>
+                        <label htmlFor="reply_to" className="block text-sm mb-2 font-medium">
+                            Your Email
+                        </label>
+                        <input
+                            type="email"
+                            name="reply_to"
+                            id="reply_to"
+                            required
                             className="w-full px-4 py-3 rounded-md border border-input bg-background focus:outline-hidden focus:ring-2 focus:ring-primary"
                             placeholder="your@email.com"
                         />
-
-                        {errors.reply_to && <span className="text-red-500 text-sm">{errors.reply_to.message}</span>}
-
                     </div>
-                                        <div>
-                        <label htmlFor="name" className="block text-sm mb-2 font-medium"> Your Message</label>
-                        <textarea  
-                        id="message" 
-                        {...register("message", { required: "Message is required" })}
-                        className="w-full px-4 py-3 rounded-md border border-input bg-background focus:outline-hidden focus:ring-2 focus:ring-primary resize-none h-32"
-                        placeholder="Your message here..."/>
 
-                        {errors.message && <span className="text-red-500 text-sm">{errors.message.message}</span>}
+                    <div>
+                        <label htmlFor="message" className="block text-sm mb-2 font-medium">
+                            Your Message
+                        </label>
+                        <textarea
+                            name="message"
+                            id="message"
+                            required
+                            className="w-full px-4 py-3 rounded-md border border-input bg-background focus:outline-hidden focus:ring-2 focus:ring-primary resize-none h-32"
+                            placeholder="Your message here..."
+                        />
                     </div>
-                    <button type="submit"
-                    disabled={isSubmitting}
-                    className={cn("cosmic-button w-full flex items-center justify-center gap-2",)}>
-                        {isSubmitting ? "Sending...": "Send Message"}
-                    <Send size={16}/>
+
+                    <button
+                        type="submit"
+                        disabled={isSubmitting}
+                        className={cn("cosmic-button w-full flex items-center justify-center gap-2")}
+                    >
+                        {isSubmitting ? "Sending..." : "Send Message"}
+                        <Send size={16} />
                     </button>
                 </form>
 
