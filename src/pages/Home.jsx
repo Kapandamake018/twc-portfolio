@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import { Navbar } from "../components/Navbar";
 import { StarBackground } from "@/components/StarBackground";
 import { HeroSection } from "../components/HeroSection";
@@ -9,7 +10,12 @@ import { Footer } from "../components/Footer";
 
 export const Home = () => {
   return (
-    <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+      className="min-h-screen bg-background text-foreground overflow-x-hidden"
+    >
       {/* Background Effects */}
       <StarBackground />
 
@@ -26,6 +32,6 @@ export const Home = () => {
 
       {/* Footer */}
       <Footer />
-    </div>
+    </motion.div>
   );
 };

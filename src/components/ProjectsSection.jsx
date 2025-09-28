@@ -1,4 +1,5 @@
 import { ArrowRight, Github } from "lucide-react"
+import { useState } from "react"
 
 const projects =[
     {
@@ -30,7 +31,10 @@ const projects =[
 ]
 
 export const ProjectsSection = () => {
-    return <section id="projects" className="py-24 px04 relative">
+  const [filter, setFilter] = useState('all');
+  
+  return (
+    <section id="projects" className="py-24 px04 relative">
         <div className="container mx-auto max-w-5xl">
             <h2 className="text-3xl md:text-4xl font-bold mb-4 text-center">
                  Featured <span className="text-primary"> Projects </span></h2>
@@ -38,8 +42,13 @@ export const ProjectsSection = () => {
             <p className="text-center text-muted-foreground mb-12 max-w-2xl mx-auto">
                  Here are some of the projects I've worked on recently. Click on the GitHub icon to view the code repository.
             </p>
+            <div className="flex gap-4 mb-8">
+              <button onClick={() => setFilter('all')}>All</button>
+              <button onClick={() => setFilter('react')}>React</button>
+              <button onClick={() => setFilter('node')}>Node.js</button>
+            </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg-grid-cols-3 gap-8">
-                {projects.map((project, key) => (
+                {projects.filter(project => filter === 'all' || project.tags.includes(filter)).map((project, key) => (
                     <div
                      key={key} className="group bg-card rounded-lg overflow-hidden shadow-xs card-hover">
                         <div className="h-48 overflow-hidden">
@@ -93,4 +102,5 @@ export const ProjectsSection = () => {
             
             </div>
     </section>
-}
+  );
+};

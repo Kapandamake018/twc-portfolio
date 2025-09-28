@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils"
 import { useToast } from "@/hooks/use-toast"
 import emailjs from "emailjs-com";
 import React from "react";
-
+import { useForm } from "react-hook-form";
 
 
 
@@ -12,15 +12,15 @@ import React from "react";
 export const ContactSection = () => {
     const { toast } = useToast();
     const [isSubmitting, setIsSubmitting] = React.useState(false);
+    const { register, handleSubmit, formState: { errors } } = useForm();
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
+    const onSubmit = (data) => {
         setIsSubmitting(true);
 
         emailjs.sendForm(
             'service_cehj4iq',      // Replace with your EmailJS service ID
             'template_62l05iu',     // Replace with your EmailJS template ID
-            e.target,
+            data,
             'BZ-HCwti4JqVGVePO'       // Replace with your EmailJS public key
         )
         .then(() => {
@@ -142,7 +142,7 @@ export const ContactSection = () => {
 
             <div className="bg-card p-8 rounded-lg shadow-xs">
                 <h3 className="text-2xl font-semibold mb-6"> Send A Message</h3>
-                <form className="space-y-6" onSubmit={handleSubmit}>
+                <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
                     <div>
                         <label htmlFor="name" className="block text-sm mb-2 font-medium"> Your Name</label>
                         <input type="text"
@@ -160,7 +160,16 @@ export const ContactSection = () => {
                             name="reply_to"
                             required
                             className="w-full px-4 py-3 rounded-md border border-input bg-background focus:outline-hidden focus:ring-2 focus:ring-primary"
-                            placeholder="ttk123@gmail.com"/>
+                            placeholder="ttk123@gmail.com"
+                            {...register("email", { 
+                                required: "Email is required",
+                                pattern: {
+                                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                                    message: "Invalid email address"
+                                }
+                            })} />
+
+                            {errors.email && <span>{errors.email.message}</span>}
 
                     </div>
                                         <div>

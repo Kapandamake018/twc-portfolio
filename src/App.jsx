@@ -4,21 +4,21 @@ import { NotFound } from "./pages/NotFound";
 import { Toaster } from "./components/ui/toaster";
 import { Navbar } from "./components/Navbar";
 import { ThemeToggle } from "./components/ThemeToggle";
-import { Suspense } from "react";
+import { HelmetProvider } from "react-helmet-async";
 
 function App() {
   return (
-    <BrowserRouter>
-      <Toaster />
-      <Navbar />
-      <ThemeToggle />
-      <Suspense fallback={<div>Loading...</div>}>
+    <HelmetProvider>
+      <BrowserRouter>
+        <Toaster />
+        <Navbar />
+        <ThemeToggle />
         <Routes>
           <Route index element={<Home />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
-      </Suspense>
-    </BrowserRouter>
+      </BrowserRouter>
+    </HelmetProvider>
   );
 }
 
