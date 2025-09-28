@@ -10,34 +10,36 @@ import { useForm } from "react-hook-form";
 
 
 export const ContactSection = () => {
+    const { register, handleSubmit, reset, formState: { errors, isSubmitting } } = useForm();
     const { toast } = useToast();
-    const [isSubmitting, setIsSubmitting] = React.useState(false);
-    const { register, handleSubmit, formState: { errors } } = useForm();
 
-    const onSubmit = (data) => {
-        setIsSubmitting(true);
+    const onSubmit = async (data) => {
+        try {
+            await emailjs.send(
+                'service_cehj4iq',      // Replace with your EmailJS service ID
+                'template_62l05iu',     // Replace with your EmailJS template ID
+                {
+                    from_name: data.from_name,
+                    reply_to: data.reply_to,
+                    message: data.message,
+                },
+                'BZ-HCwti4JqVGVePO'       // Replace with your EmailJS public key
+            );
 
-        emailjs.sendForm(
-            'service_cehj4iq',      // Replace with your EmailJS service ID
-            'template_62l05iu',     // Replace with your EmailJS template ID
-            data,
-            'BZ-HCwti4JqVGVePO'       // Replace with your EmailJS public key
-        )
-        .then(() => {
             toast({
-                title: "Message Sent",
-                description: "Thank you for reaching out! I'll get back to you soon.",
+                title: "Message sent!",
+                description: "Thank you for reaching out. I'll get back to you soon.",
             });
-            setIsSubmitting(false);
-            e.target.reset();
-        }, (error) => {
+
+            reset(); // Clear form after successful submission
+        } catch (error) {
+            console.error('Error sending email:', error);
             toast({
                 title: "Error",
-                description: "Something went wrong. Please try again later.",
-                variant: "destructive"
+                description: "Failed to send message. Please try again.",
+                variant: "destructive",
             });
-            setIsSubmitting(false);
-        });
+        }
     };
 
     return (<section id="contact"
