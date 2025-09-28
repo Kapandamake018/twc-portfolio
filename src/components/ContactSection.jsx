@@ -15,25 +15,29 @@ export const ContactSection = () => {
 
     const onSubmit = async (data) => {
         try {
+            // Create template parameters object
+            const templateParams = {
+                from_name: data.from_name,
+                reply_to: data.reply_to,
+                message: data.message,
+                to_name: 'Thomas' // Add recipient name
+            };
+
             await emailjs.send(
-                'service_cehj4iq',      // Replace with your EmailJS service ID
-                'template_62l05iu',     // Replace with your EmailJS template ID
-                {
-                    from_name: data.from_name,
-                    reply_to: data.reply_to,
-                    message: data.message,
-                },
-                'BZ-HCwti4JqVGVePO'       // Replace with your EmailJS public key
+                'service_3n8ufhq',
+                'template_62l05iu',
+                templateParams,
+                'bR3iIwVBLd2Ty7LqN'
             );
 
             toast({
-                title: "Message sent!",
-                description: "Thank you for reaching out. I'll get back to you soon.",
+                title: "Success!",
+                description: "Your message has been sent successfully.",
             });
 
-            reset(); // Clear form after successful submission
+            reset();
         } catch (error) {
-            console.error('Error sending email:', error);
+            console.error('EmailJS Error:', error);
             toast({
                 title: "Error",
                 description: "Failed to send message. Please try again.",
@@ -149,40 +153,40 @@ export const ContactSection = () => {
                         <label htmlFor="name" className="block text-sm mb-2 font-medium"> Your Name</label>
                         <input type="text"
                             id="name"
-                            name="from_name"
-                            required
+                            {...register("from_name", { required: "Name is required" })}
                             className="w-full px-4 py-3 rounded-md border border-input bg-background focus:outline-hidden focus:ring-2 focus:ring-primary"
                             placeholder="Thomas Kapanda.." />
+
+                            {errors.from_name && <span className="text-red-500 text-sm">{errors.from_name.message}</span>}
 
                     </div>
                                         <div>
                         <label htmlFor="email" className="block text-sm mb-2 font-medium"> Your Email</label>
                         <input type="email"
                             id="email"
-                            name="reply_to"
-                            required
-                            className="w-full px-4 py-3 rounded-md border border-input bg-background focus:outline-hidden focus:ring-2 focus:ring-primary"
-                            placeholder="ttk123@gmail.com"
-                            {...register("email", { 
+                            {...register("reply_to", {
                                 required: "Email is required",
                                 pattern: {
                                     value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
                                     message: "Invalid email address"
-                                }
-                            })} />
+                            }
+                        })}
+                            className="w-full px-4 py-3 rounded-md border border-input bg-background focus:outline-hidden focus:ring-2 focus:ring-primary"
+                            placeholder="your@email.com"
+                        />
 
-                            {errors.email && <span>{errors.email.message}</span>}
+                        {errors.reply_to && <span className="text-red-500 text-sm">{errors.reply_to.message}</span>}
 
                     </div>
                                         <div>
                         <label htmlFor="name" className="block text-sm mb-2 font-medium"> Your Message</label>
                         <textarea  
                         id="message" 
-                        name="message"
-                         required
-                        className="w-full px-4 py-3 rounded-md border border-input bg-background focus:outline-hidden focus:ring-2 focus:ring-primary resize-none"
-                        placeholder="Hi There, Hello!"/>
+                        {...register("message", { required: "Message is required" })}
+                        className="w-full px-4 py-3 rounded-md border border-input bg-background focus:outline-hidden focus:ring-2 focus:ring-primary resize-none h-32"
+                        placeholder="Your message here..."/>
 
+                        {errors.message && <span className="text-red-500 text-sm">{errors.message.message}</span>}
                     </div>
                     <button type="submit"
                     disabled={isSubmitting}
