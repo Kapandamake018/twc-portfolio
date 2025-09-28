@@ -1,28 +1,27 @@
 import { CoinsIcon, Instagram, Linkedin, Mail, Phone, Send } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { useToast } from "@/hooks/use-toast"
-import emailjs from "@emailjs/browser";
-import { useForm } from "react-hook-form";
-import React, { useRef } from "react";
-
-
-
-
+import emailjs from '@emailjs/browser';
+import React, { useRef, useState } from "react";
 
 export const ContactSection = () => {
-    const { register, handleSubmit, reset, formState: { errors, isSubmitting } } = useForm();
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const { toast } = useToast();
     const form = useRef();
 
     const onSubmit = async (e) => {
         e.preventDefault();
+        setIsSubmitting(true);
         
         try {
+            // Initialize EmailJS
+            emailjs.init("bR3iIwVBLd2Ty7LqN");
+
             const result = await emailjs.sendForm(
-                'service_3n8ufhq',
+                'service_cehj4iq',
                 'template_62l05iu',
                 form.current,
-                'bR3iIwVBLd2Ty7LqN'
+                'BZ-HCwti4JqVGVePO'
             );
 
             if (result.status === 200) {
@@ -30,7 +29,7 @@ export const ContactSection = () => {
                     title: "Success!",
                     description: "Your message has been sent successfully.",
                 });
-                reset();
+                e.target.reset();
             }
         } catch (error) {
             console.error('EmailJS Error:', error);
@@ -39,6 +38,8 @@ export const ContactSection = () => {
                 description: "Failed to send message. Please try again.",
                 variant: "destructive",
             });
+        } finally {
+            setIsSubmitting(false);
         }
     };
 
