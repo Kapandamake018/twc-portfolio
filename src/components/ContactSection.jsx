@@ -1,6 +1,7 @@
 import { CoinsIcon, Instagram, Linkedin, Mail, Phone, Send } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { useToast } from "@/hooks/use-toast"
+import emailjs from "emailjs-com";
 import React from "react";
 
 
@@ -9,21 +10,35 @@ import React from "react";
 
 
 export const ContactSection = () => {
-    const {toast} = useToast();
+    const { toast } = useToast();
     const [isSubmitting, setIsSubmitting] = React.useState(false);
 
     const handleSubmit = (e) => {
         e.preventDefault();
-
         setIsSubmitting(true);
-        setTimeout(() => {
+
+        emailjs.sendForm(
+            'service_cehj4iq',      // Replace with your EmailJS service ID
+            'template_62l05iu',     // Replace with your EmailJS template ID
+            e.target,
+            'BZ-HCwti4JqVGVePO'       // Replace with your EmailJS public key
+        )
+        .then(() => {
             toast({
                 title: "Message Sent",
-                description: "Thank you for reaching out! I'll get back to you soon.", 
-            });    
-            setIsSubmitting(false);       
-        }, 1500);
-    }
+                description: "Thank you for reaching out! I'll get back to you soon.",
+            });
+            setIsSubmitting(false);
+            e.target.reset();
+        }, (error) => {
+            toast({
+                title: "Error",
+                description: "Something went wrong. Please try again later.",
+                variant: "destructive"
+            });
+            setIsSubmitting(false);
+        });
+    };
 
     return (<section id="contact"
      className="py-24 px-4 relative bg-secondary/30">
@@ -125,27 +140,27 @@ export const ContactSection = () => {
             </div>
 
 
-            <div className="bg-card p-8 rounded-lg shadow-xs" onSubmit={handleSubmit}>
+            <div className="bg-card p-8 rounded-lg shadow-xs">
                 <h3 className="text-2xl font-semibold mb-6"> Send A Message</h3>
-                <form className="space-y-6">
+                <form className="space-y-6" onSubmit={handleSubmit}>
                     <div>
                         <label htmlFor="name" className="block text-sm mb-2 font-medium"> Your Name</label>
-                        <input type="text" 
-                        id="name" 
-                        name="name"
-                         required
-                        className="w-full px-4 py-3 rounded-md border border-input bg-background focus:outline-hidden focus:ring-2 focus:ring-primary"
-                        placeholder="Thomas Kapanda.."/>
+                        <input type="text"
+                            id="name"
+                            name="from_name"
+                            required
+                            className="w-full px-4 py-3 rounded-md border border-input bg-background focus:outline-hidden focus:ring-2 focus:ring-primary"
+                            placeholder="Thomas Kapanda.." />
 
                     </div>
                                         <div>
                         <label htmlFor="email" className="block text-sm mb-2 font-medium"> Your Email</label>
-                        <input type="email" 
-                        id="email" 
-                        name="email"
-                         required
-                        className="w-full px-4 py-3 rounded-md border border-input bg-background focus:outline-hidden focus:ring-2 focus:ring-primary"
-                        placeholder="ttk123@gmail.com"/>
+                        <input type="email"
+                            id="email"
+                            name="reply_to"
+                            required
+                            className="w-full px-4 py-3 rounded-md border border-input bg-background focus:outline-hidden focus:ring-2 focus:ring-primary"
+                            placeholder="ttk123@gmail.com"/>
 
                     </div>
                                         <div>
