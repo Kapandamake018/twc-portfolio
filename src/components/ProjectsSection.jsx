@@ -4,25 +4,25 @@ import { useState } from "react"
 const projects =[
     {
         id: 1,
-        title: "Project One",
-        description: "This is a brief description of Project One.",
+        title: "Wina Bwangu Website",
+        description: "A repository for a simple website built using HTML, CSS, and JavaScript. The website is designed to be responsive and user-friendly, showcasing various features and content.",
         image: "/projects/project1.png",
         tags: ["HTML", "CSS", "JavaScript"],
         githubUrl:"https://github.com/Kapandamake018/wina-bwangu.git"
     },
         {
         id: 2,
-        title: "Project Two",
-        description: "This is a brief description of Project One.",
+        title: "Personal Portfolio",
+        description: "This is my personal portfolio website built using React and Tailwind CSS. It showcases my projects, skills, and experience in a clean and modern design. The website is fully responsive and optimized for performance.",
         image: "/projects/project2.png",
         tags: ["React", "Tailwind CSS"],
         githubUrl:"https://github.com/Kapandamake018/twc-portfolio.git"
     },
         {
         id: 3,
-        title: "Project Three",
-        description: "This is a brief description of Project One.",
-        image: "/projects/project1.png",
+        title: "Data Structures and Algorithms",
+        description: "In this repository, I have implemented various data structures and algorithms using Python. The project includes implementations of linked lists, stacks, queues, binary trees, sorting algorithms, and searching algorithms. Each implementation is accompanied by test cases to demonstrate its functionality.",
+        image: "/projects/project3.png",
         tags: ["Python"],
         githubUrl:"https://github.com/Kapandamake018/stacks-and-queues.git"
     }
