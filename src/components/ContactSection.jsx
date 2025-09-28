@@ -78,16 +78,29 @@ export const ContactSection = () => {
 
             <div className="pt-8">
                 <h4 className="font-medium mb-4">Connect With Me</h4>
-                <div className="flex psace-x-4 justify-center">
-                    <a href="https://www.linkedin.com/in/tumbikani-kapandamake-775276325?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3Boph32yozT16HwGTnrswdUg%3D%3D" 
-                    target="_blank">
-                        <Linkedin/>
+                <div className="flex gap-6 justify-center">
+                    <a
+                        href="https://www.linkedin.com/in/tumbikani-kapandamake-775276325?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3Boph32yozT16HwGTnrswdUg%3D%3D"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="transition-transform hover:scale-110"
+                        aria-label="LinkedIn"
+                    >
+                        <span className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-primary/10 hover:bg-primary/20">
+                            <Linkedin className="w-7 h-7 text-primary" />
+                        </span>
                     </a>
-                        <a href="https://www.instagram.com/mrplusaplus?igsh=MXV2MmIyZzV1YTJsNQ=="
-                        target="_blank" >
-                        <Instagram/>
+                    <a
+                        href="https://www.instagram.com/mrplusaplus?igsh=MXV2MmIyZzV1YTJsNQ=="
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="transition-transform hover:scale-110"
+                        aria-label="Instagram"
+                    >
+                        <span className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-primary/10 hover:bg-primary/20">
+                            <Instagram className="w-7 h-7 text-primary" />
+                        </span>
                     </a>
-
                 </div>
             </div>
             </div>
