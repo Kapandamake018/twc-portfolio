@@ -127,17 +127,6 @@ export const ContactSection = () => {
                             <Linkedin className="w-7 h-7 text-primary" />
                         </span>
                     </a>
-                    <a
-                        href="https://www.instagram.com/mrplusaplus?igsh=MXV2MmIyZzV1YTJsNQ=="
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="transition-transform hover:scale-110"
-                        aria-label="Instagram"
-                    >
-                        <span className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-primary/10 hover:bg-primary/20">
-                            <Instagram className="w-7 h-7 text-primary" />
-                        </span>
-                    </a>
                 </div>
             </div>
             </div>
