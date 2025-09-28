@@ -1,7 +1,7 @@
 import { CoinsIcon, Instagram, Linkedin, Mail, Phone, Send } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { useToast } from "@/hooks/use-toast"
-import emailjs from "emailjs-com";
+import emailjs from "@emailjs/browser";
 import { useForm } from "react-hook-form";
 import React from "react";
 
@@ -14,32 +14,20 @@ export const ContactSection = () => {
     const { toast } = useToast();
 
     const onSubmit = async (data) => {
-        // Add this console.log to see what data we're sending
-        console.log('Sending email with data:', {
-            from_name: data.from_name,
-            reply_to: data.reply_to,
-            message: data.message
-        });
-
         try {
-            // Create template parameters object
-            const templateParams = {
-                from_name: data.from_name,
-                reply_to: data.reply_to,
-                message: data.message,
-                to_name: 'Thomas' // Add recipient name
-            };
-
-            // Initialize EmailJS with your public key
+            // Initialize EmailJS
             emailjs.init("bR3iIwVBLd2Ty7LqN");
 
             const result = await emailjs.send(
                 "service_3n8ufhq",
                 "template_62l05iu",
-                templateParams
+                {
+                    from_name: data.from_name,
+                    reply_to: data.reply_to,
+                    message: data.message,
+                    to_name: "Thomas"
+                }
             );
-
-            console.log('Email sent:', result); // For debugging
 
             if (result.status === 200) {
                 toast({
