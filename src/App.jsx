@@ -2,20 +2,24 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Home } from "./pages/Home";
 import { NotFound } from "./pages/NotFound";
 import { Toaster } from "./components/ui/toaster";
-import { useToast } from "./hooks/use-toast";
+import { Navbar } from "./components/Navbar";
+import { ThemeToggle } from "./components/ThemeToggle";
+import { Suspense } from "react";
 
 function App() {
   return (
-    <>
-    <Toaster/>
-      <BrowserRouter>
+    <BrowserRouter>
+      <Toaster />
+      <Navbar />
+      <ThemeToggle />
+      <Suspense fallback={<div>Loading...</div>}>
         <Routes>
-          <Route index element={<Home/>} />
-          <Route path="*" element={<NotFound/>} /> 
+          <Route index element={<Home />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
-      </BrowserRouter>
-    </>
+      </Suspense>
+    </BrowserRouter>
   );
 }
 
-export default App
+export default App;
