@@ -8,7 +8,7 @@ Kapandamake </span> </h1>
 
 
         <p className="text-xl md:text-2xl text-muted-foreground mb-8">
-          A computer science student hoping to help change the world in one way or another.
+          A computer science student aiming at contributing to the changing world.
         </p>
 
         <div className="flex justify-center md:justify-start gap-4">
