@@ -10,12 +10,34 @@ export const StarBackground = () => {
         generateMeteors();
         generateShapes();
 
-        const handleResize = () => {          
-              generateStars();
-              generateShapes();          
+        let resizeTimer;
+        let lastWidth = window.innerWidth;
+        let lastHeight = window.innerHeight;
+
+        const handleResize = () => {
+            // Debounce and only trigger on actual window dimension changes
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(() => {
+                const currentWidth = window.innerWidth;
+                const currentHeight = window.innerHeight;
+                
+                // Only regenerate if dimensions actually changed significantly
+                // This prevents mobile scroll from triggering regeneration
+                if (Math.abs(currentWidth - lastWidth) > 100 || 
+                    Math.abs(currentHeight - lastHeight) > 100) {
+                    lastWidth = currentWidth;
+                    lastHeight = currentHeight;
+                    generateStars();
+                    generateShapes();
+                }
+            }, 300);
         }
+        
         window.addEventListener('resize', handleResize);
-        return () => window.removeEventListener('resize', handleResize);
+        return () => {
+            window.removeEventListener('resize', handleResize);
+            clearTimeout(resizeTimer);
+        };
 
     }, []);
     
@@ -24,6 +46,12 @@ export const StarBackground = () => {
 
         const newStars = [];
 
+        const colorChoices = [
+          "hsl(46 100% 92%)", // warm cream
+          "hsl(35 100% 96%)", // pale peach
+          "hsl(210 80% 98%)"  // cool pale
+        ];
+
         for (let i = 0; i < numberOfStars; i++) {
             newStars.push({
                 id: i,
@@ -31,7 +59,8 @@ export const StarBackground = () => {
                 x: Math.random() * 100,
                 y: Math.random() * 100,
                 opacity: Math.random() * 0.5 + 0.5,
-                animationDuration: Math.random() * 4 + 2
+                animationDuration: Math.random() * 4 + 2,
+                color: colorChoices[Math.floor(Math.random() * colorChoices.length)]
             });
         }  
         setStars(newStars); 
@@ -101,6 +130,9 @@ export const StarBackground = () => {
                     top: star.y + "%",
                     opacity: star.opacity,
                     animationDuration: star.animationDuration+ "s",
+                    /* Make star use its color via a radial gradient for a warm glow */
+                    background: `radial-gradient(circle at 35% 30%, ${star.color} 0%, rgba(255,255,255,0.85) 30%, rgba(255,255,255,0) 80%)`,
+                    boxShadow: `0 0 ${Math.max(6, star.size * 4)}px rgba(255, 235, 200, ${0.35 + star.opacity * 0.4})`
                 }}
                 />
         ))}  
