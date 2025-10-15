@@ -47,6 +47,30 @@
       opacity: 0;
     }
   }
+
+  @keyframes shape-float {
+    0%, 100% { 
+      transform: translateY(0) translateX(0) rotate(var(--initial-rotation));
+    }
+    25% {
+      transform: translateY(-20px) translateX(10px) rotate(calc(var(--initial-rotation) + 5deg));
+    }
+    50% {
+      transform: translateY(-15px) translateX(-10px) rotate(calc(var(--initial-rotation) - 5deg));
+    }
+    75% {
+      transform: translateY(-25px) translateX(5px) rotate(calc(var(--initial-rotation) + 3deg));
+    }
+  }
+
+  @keyframes shape-rotate {
+    0% {
+      transform: rotate(var(--initial-rotation));
+    }
+    100% {
+      transform: rotate(calc(var(--initial-rotation) + 360deg));
+    }
+  }
  
 
 }
@@ -146,6 +170,37 @@
 @utility meteor{
   @apply absolute bg-linear-to-r from-white to-transparent rounded-full;
   box-shadow: 0 0 10px 5px rgba(255, 255, 255, 0.3);
+}
+
+@utility geometric-shape{
+  @apply absolute;
+  -webkit-backdrop-filter: blur(2px);
+  backdrop-filter: blur(2px);
+  animation: shape-float var(--float-duration) ease-in-out infinite;
+  will-change: transform;
+  /* Hide in dark mode */
+  .dark & {
+    opacity: 0;
+    pointer-events: none;
+  }
+}
+
+@utility shape-circle{
+  border-radius: 50%;
+}
+
+@utility shape-triangle{
+  clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+}
+
+@utility shape-hexagon{
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+}
+
+@utility shape-square{
+  border-radius: 15%;
+  animation: shape-float var(--float-duration) ease-in-out infinite,
+             shape-rotate var(--rotate-duration) linear infinite;
 }
 
 #root{

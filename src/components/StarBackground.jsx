@@ -3,13 +3,16 @@ import { useEffect, useState } from "react";
 export const StarBackground = () => {
     const [stars, setStars] = useState([]);
     const [meteors, setMeteors] = useState([]);
+    const [shapes, setShapes] = useState([]);
 
     useEffect(() => {
         generateStars();
         generateMeteors();
+        generateShapes();
 
         const handleResize = () => {          
-              generateStars();          
+              generateStars();
+              generateShapes();          
         }
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
@@ -51,6 +54,39 @@ export const StarBackground = () => {
         setMeteors(newMeteors); 
     }
 
+    const generateShapes = () => {
+        const numberOfShapes = Math.floor(window.innerWidth * window.innerHeight / 20000);
+        const newShapes = [];
+
+        const shapeTypes = ['circle', 'triangle', 'hexagon', 'square'];
+        const shapeColors = [
+          { bg: 'rgba(173, 216, 230, 0.25)', shadow: 'rgba(173, 216, 230, 0.4)' }, // light blue
+          { bg: 'rgba(255, 182, 193, 0.25)', shadow: 'rgba(255, 182, 193, 0.4)' }, // light pink
+          { bg: 'rgba(221, 160, 221, 0.25)', shadow: 'rgba(221, 160, 221, 0.4)' }, // plum
+          { bg: 'rgba(255, 228, 181, 0.25)', shadow: 'rgba(255, 228, 181, 0.4)' }, // peach
+          { bg: 'rgba(176, 224, 230, 0.25)', shadow: 'rgba(176, 224, 230, 0.4)' }, // powder blue
+          { bg: 'rgba(255, 218, 185, 0.25)', shadow: 'rgba(255, 218, 185, 0.4)' }, // peach puff
+        ];
+
+        for (let i = 0; i < numberOfShapes; i++) {
+            const colorPair = shapeColors[Math.floor(Math.random() * shapeColors.length)];
+            newShapes.push({
+                id: i,
+                type: shapeTypes[Math.floor(Math.random() * shapeTypes.length)],
+                size: Math.random() * 60 + 30,
+                x: Math.random() * 100,
+                y: Math.random() * 100,
+                rotation: Math.random() * 360,
+                floatDuration: Math.random() * 8 + 6,
+                rotateDuration: Math.random() * 20 + 15,
+                delay: Math.random() * 5,
+                color: colorPair.bg,
+                shadowColor: colorPair.shadow
+            });
+        }  
+        setShapes(newShapes); 
+    }
+
 
 
     return <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
@@ -78,11 +114,31 @@ export const StarBackground = () => {
                     height: meteor.size *2 + "px",
                     left: meteor.x + "%",
                     top: meteor.y + "%",
-                    animationDelay: meteor.delay,
+                    animationDelay: meteor.delay + "s",
                     animationDuration: meteor.animationDuration + "s",
                 }}
                 />
         ))} 
+
+        {/* Floating geometric shapes for light mode */}
+        {shapes.map((shape) => (
+            <div 
+                key={`shape-${shape.id}`}
+                 className={`geometric-shape shape-${shape.type}`}
+                 style ={{
+                    width: shape.size + "px",
+                    height: shape.size + "px",
+                    left: shape.x + "%",
+                    top: shape.y + "%",
+                    backgroundColor: shape.color,
+                    boxShadow: `0 4px 20px ${shape.shadowColor}`,
+                    animationDelay: shape.delay + "s",
+                    '--float-duration': shape.floatDuration + "s",
+                    '--rotate-duration': shape.rotateDuration + "s",
+                    '--initial-rotation': shape.rotation + "deg",
+                }}
+                />
+        ))}
 
     </div>
     };  
