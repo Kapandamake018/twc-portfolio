@@ -1,4 +1,4 @@
-import { ArrowRight, Github } from "lucide-react"
+import { ArrowRight, Github, ExternalLink } from "lucide-react"
 
 const projects = [
   {
@@ -19,8 +19,26 @@ const projects = [
     tags: ["React", "Tailwind CSS"],
     githubUrl: "https://github.com/Kapandamake018/twc-portfolio.git",
   },
-  {
+    {
     id: 3,
+    title: "Glam Gardens Official Website",
+    description:
+      "This is the official website for Glam Gardens, built using React and Tailwind CSS. It showcases the various services offered by Glam Gardens, along with a gallery of images and a contact form.",
+    image: "/projects/project5.png",
+    tags: ["React", "Tailwind CSS"],
+    URL: "https://glam-gardens.vercel.app/",
+  },
+    {
+    id: 4,
+    title: "Circle Property Official Website",
+    description:
+      "This is the official website for Circle Property, built using React and Tailwind CSS. It showcases the various services offered by Circle Property, along with a gallery of images and a contact form.",
+    image: "/projects/project4.png",
+    tags: ["React", "Tailwind CSS"],
+    URL: "https://circle-property.vercel.app/",
+  },
+  {
+    id: 5,
     title: "Data Structures and Algorithms",
     description:
       "In this repository, I have implemented various data structures and algorithms using Python. The project includes implementations of linked lists, stacks, queues, binary trees, sorting algorithms, and searching algorithms. Each implementation is accompanied by test cases to demonstrate its functionality.",
@@ -39,8 +57,8 @@ export const ProjectsSection = () => {
         </h2>
 
         <p className="text-center text-muted-foreground mb-12 max-w-2xl mx-auto">
-          Here are some of the projects I've worked on recently. Click on the
-          GitHub icon to view the code repository.
+          Here are some of the projects I've worked on recently. Click the icon
+          to visit the project's website or view its GitHub repository.
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -78,11 +96,17 @@ export const ProjectsSection = () => {
                 <div className="mt-auto flex justify-between items-center">
                   <div className="flex space-x-3">
                     <a
-                      href={project.githubUrl}
+                      href={project.URL ? project.URL : project.githubUrl}
                       target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={project.URL ? "Visit project website" : "View source on GitHub"}
                       className="text-foreground/80 hover:text-primary transition-colors duration-300"
                     >
-                      <Github size={20} />
+                      {project.URL ? (
+                        <ExternalLink size={20} />
+                      ) : (
+                        <Github size={20} />
+                      )}
                     </a>
                   </div>
                 </div>
